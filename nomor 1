@@ -1,0 +1,53 @@
+import math
+
+class Calculator:
+    def __init__(self, value):
+        self.value = value
+
+    def __add__(self, other):
+        if isinstance(other, Calculator):
+            return Calculator(self.value + other.value)
+        return Calculator(self.value + other)
+
+    def __sub__(self, other):
+        if isinstance(other, Calculator):
+            return Calculator(self.value - other.value)
+        return Calculator(self.value - other)
+
+    def __mul__(self, other):
+        if isinstance(other, Calculator):
+            return Calculator(self.value * other.value)
+        return Calculator(self.value * other)
+
+    def __truediv__(self, other):
+        if isinstance(other, Calculator):
+            if other.value == 0:
+                raise ZeroDivisionError("Cannot divide by zero")
+            return Calculator(self.value / other.value)
+        if other == 0:
+            raise ZeroDivisionError("Cannot divide by zero")
+        return Calculator(self.value / other)
+
+    def __pow__(self, other):
+        if isinstance(other, Calculator):
+            return Calculator(self.value ** other.value)
+        return Calculator(self.value ** other)
+
+    def log(self, base=math.e):
+        if self.value <= 0:
+            raise ValueError("Logarithm undefined for non-positive values")
+        return Calculator(math.log(self.value, base))
+
+    def __str__(self):
+        return str(self.value)
+
+# Contoh penggunaan
+num1 = Calculator(10)
+num2 = Calculator(2)
+
+print(f"Hasil penjumlahan: {num1 + num2}")  
+print(f"Hasil pengurangan: {num1 - num2}")
+print(f"Hasil perkalian: {num1 * num2}")
+print(f"Hasil pembagian: {num1 / num2}")
+print(f"Hasil perpangkatan: {num1 ** num2}")
+print(f"Hasil logaritma natural: {num1.log()}")
